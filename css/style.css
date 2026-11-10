@@ -1,9 +1,11 @@
 :root {
   --bg: #12141c;
   --bg-soft: #1a1d29;
+  --bg-soft-2: #1f2230;
   --text: #e7e6f0;
   --text-dim: #9a9bb0;
   --accent: #e3b873;
+  --accent-soft: rgba(227, 184, 115, 0.12);
   --line: #2a2d3d;
 }
 
@@ -17,7 +19,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(640px 420px at 82% -8%, rgba(227, 184, 115, 0.10), transparent 70%),
+    var(--bg);
   color: var(--text);
   font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
   font-size: 16px;
@@ -34,6 +38,7 @@ a {
   text-decoration: underline;
   text-decoration-color: rgba(227, 184, 115, 0.4);
   text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
 }
 
 a:hover,
@@ -48,9 +53,30 @@ button:focus-visible {
 }
 
 .wrap {
-  max-width: 640px;
+  max-width: 680px;
   margin: 0 auto;
   padding: 0 28px;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.7s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 /* ---------- hero ---------- */
@@ -58,8 +84,7 @@ button:focus-visible {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 120px 0 88px;
-  border-bottom: 1px solid var(--line);
+  padding: 136px 0 96px;
 }
 
 .hero-sky {
@@ -112,48 +137,60 @@ button:focus-visible {
 }
 
 .studio-name {
-  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
   letter-spacing: 0.02em;
   color: var(--text-dim);
-  margin: 0 0 18px;
+  margin: 0 0 22px;
+}
+
+.studio-name::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
 h1 {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 40px;
+  font-size: clamp(32px, 6vw, 44px);
   font-weight: 600;
-  line-height: 1.25;
-  margin: 0 0 20px;
-  max-width: 11ch;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 0 0 22px;
+  max-width: 12ch;
 }
 
 .tagline {
   font-size: 18px;
   color: var(--text-dim);
   margin: 0;
-  max-width: 28ch;
+  max-width: 30ch;
 }
 
 /* ---------- sections ---------- */
 
 section {
-  padding: 64px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 60px 0;
 }
 
-section:last-of-type {
-  border-bottom: none;
+section + section {
+  border-top: 1px solid var(--line);
 }
 
 h2 {
   font-size: 22px;
   font-weight: 700;
   margin: 0 0 24px;
+  letter-spacing: -0.005em;
 }
 
 p {
   margin: 0 0 16px;
-  max-width: 34ch;
+  max-width: 36ch;
   color: var(--text);
 }
 
@@ -164,45 +201,103 @@ p:last-child {
 /* ---------- app card ---------- */
 
 .app-card {
-  background: var(--bg-soft);
+  background: linear-gradient(165deg, var(--bg-soft-2), var(--bg-soft));
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 28px;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02) inset,
+              0 24px 48px -32px rgba(0, 0, 0, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.app-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(227, 184, 115, 0.3);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset,
+              0 32px 56px -28px rgba(0, 0, 0, 0.65);
 }
 
 .app-card h3 {
-  font-size: 19px;
-  margin: 0 0 4px;
+  font-size: 20px;
+  margin: 0 0 14px;
+  letter-spacing: -0.005em;
 }
 
 .app-meta {
-  font-size: 14px;
+  display: flex;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12.5px;
   color: var(--text-dim);
-  margin: 0 0 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.pill.accent {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(227, 184, 115, 0.25);
 }
 
 .app-card p {
-  max-width: 36ch;
+  max-width: 38ch;
 }
 
 .app-note {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--line);
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
   font-size: 14px;
   color: var(--text-dim);
+}
+
+.app-note p {
+  max-width: 44ch;
 }
 
 /* ---------- contact ---------- */
 
-.contact-link {
-  font-size: 18px;
+.contact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 12px 22px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.contact-button:hover,
+.contact-button:focus-visible {
+  border-color: rgba(227, 184, 115, 0.4);
+  background: var(--bg-soft-2);
+  transform: translateY(-1px);
+}
+
+.contact-button::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
 /* ---------- footer ---------- */
 
 footer {
-  padding: 40px 0 64px;
+  padding: 44px 0 72px;
   font-size: 13px;
   color: var(--text-dim);
 }
@@ -246,9 +341,9 @@ footer a {
 
 @media (max-width: 480px) {
   .hero {
-    padding: 88px 0 64px;
+    padding: 100px 0 72px;
   }
-  h1 {
-    font-size: 32px;
+  .app-card {
+    padding: 24px;
   }
 }
