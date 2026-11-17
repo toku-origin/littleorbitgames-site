@@ -161,14 +161,17 @@ h1 {
   letter-spacing: -0.01em;
   line-height: 1.3;
   margin: 0 0 22px;
-  max-width: 12ch;
+  /* 日本語は ch(半角数字の幅)で幅を決めると1行が6文字ほどになり変な所で折り返すので、em で決める */
+  max-width: 16em;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 .tagline {
   font-size: 18px;
   color: var(--text-dim);
   margin: 0;
-  max-width: 30ch;
+  max-width: 32em;
 }
 
 /* ---------- sections ---------- */
